@@ -8,7 +8,7 @@ const DUMMY_POSTS = [
     image: "getting-started-nextjs.png",
     excerpt: "NextJs is the react framework for the future",
     date: "2022-02-10",
-    slug: "getting-started-with-nextjs1",
+    slug: "getting-started-with-nextjs",
   },
   {
     title: "Gee=tting Started with NextJs",
