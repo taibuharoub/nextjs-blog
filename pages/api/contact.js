@@ -1,6 +1,6 @@
 // /api/conatct
-
-function handler(req, res) {
+import { MongoClient } from "mongodb";
+async function handler(req, res) {
   if (req.method === "POST") {
     const { email, name, message } = req.body;
 
@@ -21,7 +21,27 @@ function handler(req, res) {
       name,
       message,
     };
-    console.log(newMessage);
+
+    let client;
+    try {
+      client = await MongoClient.connect(
+        "mongodb://localhost:27017/nextjsblog"
+      );
+    } catch (error) {
+      return res.status(500).json({ message: "Could not connect to Database" });
+    }
+
+    // const db = client.db("nextjsblog"); //can directly pass a db name
+    const db = client.db();
+
+    try {
+      const result = await db.collection("messages").insertOne(newMessage);
+      newMessage.id = result.insertedId;
+    } catch (error) {
+      return res.status(500).json({ message: "Could not insert message" });
+    }
+
+    client.close();
 
     res
       .status(201)
